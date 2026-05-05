@@ -4,23 +4,25 @@ A shareable starter framework for building a personal knowledge base with plain 
 
 It works as a normal folder of Markdown files, an Obsidian vault, and a command-line searchable reference library.
 
+It is designed for humans and AI agents to share and expand together: humans contribute context and judgment, while agents help turn raw source material into durable KB entries.
+
 ## Quickstart
 
 1. Copy or clone this repository for your own KB.
 2. Open it in your editor or in Obsidian as a vault.
 3. Read the example entry at [kb/meta/kb0001-kb-framework/kb0001-kb-framework.md](kb/meta/kb0001-kb-framework/kb0001-kb-framework.md).
-4. Create your first entry from [_template/kb.md](_template/kb.md).
+4. Create your first entry from [_template/kb.md](_template/kb.md), or give your AI agent source material and ask it to **"turn this into a KB"**. Good source material includes files, shell-session notes, chat transcripts, or text pasted directly into agent chat.
 5. Regenerate the index:
 
-```bash
-python3 tools/generate_index.py
-```
+   ```bash
+   python3 tools/generate_index.py
+   ```
 
 6. Validate the repo:
 
-```bash
-python3 tools/validate.py
-```
+   ```bash
+   python3 tools/validate.py
+   ```
 
 ## Layout
 
@@ -71,7 +73,7 @@ Each entry directory contains one primary Markdown note. The note filename is un
 8. Regenerate the index with `python3 tools/generate_index.py`.
 9. Validate with `python3 tools/validate.py`.
 
-To have an agent do this, say **"turn this into a KB"** and provide the source. The agent follows [AGENTS.md](AGENTS.md).
+To have an agent do this, say **"turn this into a KB"** and provide the source material, such as files, shell-session notes, chat transcripts, or pasted text. The agent follows [AGENTS.md](AGENTS.md).
 
 ## Entry Types
 
