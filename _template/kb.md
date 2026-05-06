@@ -14,30 +14,13 @@ updated: YYYY-MM-DD
 
 # {Title}
 
-<!--
-  Copy this file into a new entry directory and rename it to match the entry stem:
-
-  kb/{topic}/kbNNNN-short-title/kbNNNN-short-title.md
-
-  Pick ONE body shape below and delete the others.
-  - Use the "kb" shape for references, how-tos, explainers, and conventions.
-  - Use the "runbook" shape (type: runbook in frontmatter) for operational responses.
-  - Use the "script" shape (type: script in frontmatter) when the primary deliverable
-    is executable scripts. Add scripts: [data/script-name.sh] to frontmatter.
-  Delete this comment when you are done.
--->
-
-<!-- ===== kb shape ===== -->
-
 ## Context
 
-Why this exists / when to use it.
+Why this exists / when to use it. What problem it solves or what it documents.
 
-## Steps
+## Details
 
-1. ...
-2. ...
-3. ...
+Core content goes here. Use subheadings as needed to organize the information.
 
 ## Gotchas
 
@@ -49,11 +32,13 @@ Why this exists / when to use it.
 - Related KBs: `kbNNNN`
 - External: [link title](https://example.com)
 
-<!-- ===== runbook shape ===== -->
+<!--
+For operational notes (troubleshooting, incident response), use this body shape instead
+of the one above. The type stays `kb` — body structure communicates intent.
 
 ## Symptoms
 
-What the user/operator sees when this fires.
+What the user or operator sees when this fires.
 
 ## Diagnosis
 
@@ -78,44 +63,4 @@ How to confirm the fix worked.
 ## Rollback
 
 How to undo if the resolution made things worse.
-
-## References
-
-- Related KBs: `kbNNNN`
-- Runbook source / postmortem: [link](https://example.com)
-
-<!-- ===== script shape ===== -->
-
-## Context
-
-What this script does and when to use it.
-
-## Usage
-
-```bash
-./data/verb-noun.sh [OPTIONS] <args>
-```
-
-## Parameters
-
-| Flag / Arg | Required | Description |
-|------------|----------|-------------|
-| `<arg1>` | yes | ... |
-| `--flag` | no | ... |
-
-## Example Output
-
-```text
-$ ./data/verb-noun.sh example-arg
-Expected output here...
-```
-
-## Gotchas
-
-- ...
-- ...
-
-## References
-
-- Related KBs: `kbNNNN`
-- External: [link title](https://example.com)
+-->

@@ -8,58 +8,51 @@ The user will give you a document, a paste of text, or a link. Convert it into a
 
 ### Checklist
 
-1. **Determine the type.**
-   - `kb` -- reference, how-to, explainer, conventions.
-   - `runbook` -- operational response: something is broken, here is what to do.
-   - `script` -- primary deliverable is one or more executable scripts; the Markdown entry documents usage.
-   - If ambiguous, ask the user.
-
-2. **Pick a topic folder.**
+1. **Pick a topic folder.**
    - List `kb/` and reuse an existing folder if one fits, e.g. `git`, `aws-ec2`, `incident-response`.
    - Only create a new topic if no existing topic fits. Use lowercase kebab-case.
    - If multiple topics could fit, ask the user.
 
-3. **Allocate the next ID.**
+2. **Allocate the next ID.**
    - Read `INDEX.md`, find the largest `kbNNNN`, add 1, and zero-pad to 4 digits.
    - Double-check the ID is unused with `rg "^id: kbNNNN$" kb/`.
 
-4. **Choose a slug.**
+3. **Choose a slug.**
    - Create a short lowercase kebab-case slug from the title.
    - Use the hybrid stem `kbNNNN-short-title` for both the entry directory and note filename.
 
-5. **Create the entry directory.**
+4. **Create the entry directory.**
    - Create `kb/{topic}/kbNNNN-short-title/`.
    - Copy `_template/kb.md` to `kb/{topic}/kbNNNN-short-title/kbNNNN-short-title.md`.
-   - If the KB includes scripts, configs, attachments, or other support files, create `data/` inside the entry directory.
+   - If the entry includes scripts, configs, attachments, or other support files, create `data/` inside the entry directory.
    - All scripts must have a shebang and be executable.
 
-6. **Fill the frontmatter.**
+5. **Fill the frontmatter.**
    - `id`: matches the ID prefix, e.g. `kb0042`.
    - `title`: noun phrase or imperative, <=80 chars. No trailing period.
    - `description`: one sentence, <=120 chars. Front-load key nouns because this is primary search text.
    - `tags`: 3-7 lowercase kebab-case tokens. Check `tags.md` and reuse existing tags first.
    - `aliases`: optional Obsidian-friendly names.
-   - `type`: `kb`, `runbook`, or `script`.
+   - `type`: always `kb` (scripts and operational notes are still `kb` entries — use `data/` and body structure to distinguish).
    - `scripts`: optional array of script paths relative to the entry directory, e.g. `[data/create-user.sh]`.
    - `status`: `active` for new entries, `draft` if incomplete.
    - `last_verified`: today's date in `YYYY-MM-DD`.
    - `data_gaps`: list of claims or details you could not verify. Use `[]` if none.
    - `created` and `updated`: today's date in `YYYY-MM-DD`.
 
-7. **Write the body.**
+6. **Write the body.**
    - Do not dump raw paste. Extract structure: steps, commands, gotchas, references.
-   - For `type: kb`, use: Context, Steps or Details, Gotchas, References.
-   - For `type: runbook`, use: Symptoms, Diagnosis, Resolution, Verification, Rollback.
-   - For `type: script`, use: Context, Usage, Parameters, Example Output, Gotchas, References.
+   - Use: Context, Steps or Details, Gotchas, References.
+   - For operational notes (symptoms, diagnosis, resolution), structure the body with those headings — the type is still `kb`, the body shape is what communicates intent.
    - Quote exact commands in fenced code blocks with the right language tag.
    - Cross-reference related KBs by ID in the References section.
    - Keep it concise. If the source is long, summarize and link to the source.
 
-8. **Regenerate `INDEX.md`.**
+7. **Regenerate `INDEX.md`.**
    - Run `python3 tools/generate_index.py` to rebuild the index from frontmatter.
    - Confirm the ID appears once in the table.
 
-9. **Verify before finishing.**
+8. **Verify before finishing.**
    - The entry exists at `kb/{topic}/kbNNNN-short-title/kbNNNN-short-title.md`.
    - The ID in the directory stem, note filename, frontmatter `id:`, and `INDEX.md` row all match.
    - `rg "^id: kbNNNN$" kb/` returns exactly one hit.
@@ -72,7 +65,6 @@ The user will give you a document, a paste of text, or a link. Convert it into a
 Ask only when one of these is true:
 
 - Topic folder is genuinely ambiguous between two existing options, or no existing topic fits and you are unsure what to name a new one.
-- Type is unclear.
 - The source contains apparent secrets, credentials, private URLs, customer data, or other details that should probably be redacted before being written to disk.
 
 Otherwise, do the work and report what you created.

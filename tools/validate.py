@@ -40,7 +40,7 @@ REQUIRED_FIELDS = [
     "updated",
 ]
 
-VALID_TYPES = {"kb", "runbook", "script"}
+VALID_TYPES = {"kb"}
 VALID_STATUSES = {"active", "draft", "deprecated", "archived"}
 
 errors: list[str] = []
@@ -183,7 +183,7 @@ def validate_entry(entry_dir: Path, canonical_tags: set[str], index_ids: dict[st
 
     entry_type = frontmatter.get("type", "")
     if entry_type and entry_type not in VALID_TYPES:
-        error(f"{note_rel}: invalid type '{entry_type}'. Must be kb|runbook|script.")
+        error(f"{note_rel}: invalid type '{entry_type}'. Must be kb.")
 
     status = frontmatter.get("status", "")
     if status and status not in VALID_STATUSES:

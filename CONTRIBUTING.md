@@ -26,11 +26,9 @@ Copy `_template/kb.md` into the entry directory and rename the copy to match the
 
 ## Write The Entry
 
-- Use `type: kb` for references, how-tos, explainers, and conventions.
-- Use `type: runbook` for operational response steps.
-- Use `type: script` when executable files are the main deliverable.
 - Keep the title short and the description search-friendly.
 - Prefer concise steps, gotchas, and references over raw pasted notes.
+- For operational notes (incident response, troubleshooting, diagnosis), use: Context, Symptoms, Diagnosis, Resolution, Verification, Rollback, References. The body shape communicates intent — the type is still `kb`.
 - Link related entries by ID, such as `kb0001`.
 
 ## Scripts And Support Files

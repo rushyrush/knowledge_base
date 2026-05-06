@@ -5,14 +5,6 @@ When adding a new tag, append it to the most relevant category below.
 
 Use 3-7 tags per entry. Prefer broad tags over hyper-specific one-off tags.
 
-## Entry Shape
-
-- `kb` -- Reference, how-to, explainer, or convention
-- `runbook` -- Operational response or incident procedure
-- `script` -- Entry whose primary deliverable is executable scripts
-- `checklist` -- Repeatable checklist
-- `template` -- Reusable template or starter artifact
-
 ## Workflows
 
 - `how-to` -- Step-by-step instructions
@@ -22,6 +14,8 @@ Use 3-7 tags per entry. Prefer broad tags over hyper-specific one-off tags.
 - `reference` -- Reference material
 - `decision-record` -- Decision context and outcome
 - `postmortem` -- Incident or project retrospective
+- `checklist` -- Repeatable checklist
+- `template` -- Reusable template or starter artifact
 
 ## Tools And Development
 
