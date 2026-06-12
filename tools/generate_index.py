@@ -105,7 +105,7 @@ def table_text(entries: list[dict]) -> str:
 
 Searchable index of all KB entries. Newest entries on top.
 
-**Search tips**
+## Search Tips
 
 ```bash
 rg -i "<term>" INDEX.md               # search titles, descriptions, tags, and paths
@@ -117,14 +117,14 @@ ls kb/{topic}/                        # list entries in a topic
 ls kb/{topic}/kbNNNN-short-title/data/ # list support files for an entry
 ```
 
-See [README.md](README.md) for usage, [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidance, and [AGENTS.md](AGENTS.md) for the agent workflow.
+See [README.md](README.md) for usage, [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidance, and [AGENTS.md](AGENTS.md) for agent guidance.
 
 To regenerate this index from frontmatter: `python3 tools/generate_index.py`
 
 ## Entries
 
 | ID | Type | Title | Description | Tags | Path |
-|----|------|-------|-------------|------|------|
+| --- | --- | --- | --- | --- | --- |
 """
 
     lines = [header]

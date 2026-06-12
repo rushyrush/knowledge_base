@@ -29,6 +29,8 @@ Use 3-7 tags per entry. Prefer broad tags over hyper-specific one-off tags.
 - `shell` -- Shell commands and scripting
 - `python` -- Python tools or code
 - `automation` -- Automated workflows
+- `agents` -- Agent guidance and reusable agent behavior
+- `skills` -- Agent-agnostic reusable skills
 - `testing` -- Tests and validation
 - `debugging` -- Debugging workflows
 - `editor` -- Editor setup or usage
@@ -57,4 +59,6 @@ Use 3-7 tags per entry. Prefer broad tags over hyper-specific one-off tags.
 - `kb-system` -- KB framework mechanics
 - `tags` -- Tag taxonomy and tagging practice
 - `maintenance` -- Maintenance tasks
+- `links` -- Saved external or internal links
 - `privacy` -- Redaction and shareability concerns
+- `research` -- Research notes, source material, and investigation links

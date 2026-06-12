@@ -20,7 +20,9 @@ kb/{topic}/kbNNNN-short-title/
 └── data/
 ```
 
-The `data/` directory is optional. Use it for files that belong with the entry, such as scripts, configs, diagrams, exported logs, or screenshots.
+The `data/` directory is optional. Use it for entry-local artifacts that belong with the KB, such as source material, raw notes, transcripts, pasted docs, scripts, configs, inventories, diagrams, screenshots, exported logs, generated outputs, or other supporting files.
+
+Files inside `data/` inherit context from the parent `kbNNNN-short-title` directory, so use descriptive filenames without repeating the KB ID prefix.
 
 Copy `_template/kb.md` into the entry directory and rename the copy to match the directory stem.
 
@@ -35,12 +37,10 @@ Copy `_template/kb.md` into the entry directory and rename the copy to match the
 
 ## Scripts And Support Files
 
-If an entry includes scripts:
+If an entry includes support files:
 
-- Put scripts under that entry's `data/` directory.
-- Add a shebang, such as `#!/usr/bin/env bash`.
-- Include a short usage comment near the top.
-- Make the script executable.
+- Put source material, raw notes, transcripts, pasted docs, scripts, configs, inventories, diagrams, screenshots, exported logs, generated outputs, and other entry-local artifacts under that entry's `data/` directory.
+- For scripts, add a shebang such as `#!/usr/bin/env bash`, include a short usage comment near the top, and make the script executable.
 - List script paths in frontmatter with paths relative to the entry directory.
 
 Example:
@@ -48,6 +48,8 @@ Example:
 ```yaml
 scripts: [data/example.sh]
 ```
+
+Root-level `skills/*.md` files are different: they are global agent skills for maintaining KB quality, not support files for a single KB entry.
 
 ## Validate Before Sharing
 

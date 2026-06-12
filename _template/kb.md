@@ -12,12 +12,20 @@ created: YYYY-MM-DD
 updated: YYYY-MM-DD
 ---
 
+<!-- markdownlint-disable MD024 MD025 MD059 MD060 -->
+
 # {Title}
 
 <!--
   Copy this file into a new entry directory and rename it to match the entry stem:
 
   kb/{topic}/kbNNNN-short-title/kbNNNN-short-title.md
+
+  Put entry-local artifacts in data/: source material, raw notes, transcripts,
+  pasted docs, scripts, configs, inventories, diagrams, screenshots, exported
+  logs, generated outputs, and other files that belong with this KB.
+  Files in data/ inherit context from the parent entry, so use descriptive
+  filenames without repeating the KB ID prefix.
 
   Pick ONE body shape below and delete the others.
   - Use the "kb" shape for references, how-tos, explainers, and conventions.
@@ -48,6 +56,7 @@ Why this exists / when to use it.
 
 - Related KBs: `kbNNNN`
 - External: [link title](https://example.com)
+- Source material: [data/source-notes.md](data/source-notes.md)
 
 <!-- ===== runbook shape ===== -->
 
@@ -83,6 +92,7 @@ How to undo if the resolution made things worse.
 
 - Related KBs: `kbNNNN`
 - Runbook source / postmortem: [link](https://example.com)
+- Supporting logs or notes: [data/example-log.txt](data/example-log.txt)
 
 <!-- ===== script shape ===== -->
 
@@ -119,3 +129,4 @@ Expected output here...
 
 - Related KBs: `kbNNNN`
 - External: [link title](https://example.com)
+- Supporting files: [data/config.yaml](data/config.yaml)
