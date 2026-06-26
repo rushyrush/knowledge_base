@@ -75,12 +75,13 @@ These can speed up collection but are never required, and the skill must not dep
 4. **Choose the method** from the ladder above.
 5. **Create the collection directory** `corpus/{category}/{slug}/` and acquire the docs into `corpus/{category}/{slug}/docs/`, preserving upstream structure.
 6. **Normalize.** Prefer Markdown/text. Drop large binaries, images, archives, and site navigation chrome unless explicitly requested. Keep upstream filenames so internal cross-references still resolve.
-7. **Write the manifest.** Copy [corpus/_template/corpus.yaml](../../../corpus/_template/corpus.yaml) to `corpus/{category}/{slug}/corpus.yaml` and fill in every field (see mapping below).
-8. **Record the refresh recipe.** Satisfy the Self-Refresh Contract above: capture the actionable steps in `update_method`, or in a collection-local `REFRESH.md` referenced from `update_method` when the recipe is complex.
-9. **Add a `CORPUS_INDEX.md` row** for the collection (one row per collection, not per file).
-10. **Privacy scan** the acquired content (see boundaries below).
-11. **Link related KBs.** If a curated entry relies on this corpus, link to it from that entry and list the `kbNNNN` ID under `related_kb`.
-12. **Verify** (see below).
+7. **Analyze for unnecessary files.** Inventory `docs/` and prune cruft, binaries, chrome, and duplicates (see below). Record what you dropped in `excludes`.
+8. **Write the manifest.** Copy [corpus/_template/corpus.yaml](../../../corpus/_template/corpus.yaml) to `corpus/{category}/{slug}/corpus.yaml` and fill in every field (see mapping below).
+9. **Record the refresh recipe.** Satisfy the Self-Refresh Contract above: capture the actionable steps in `update_method`, or in a collection-local `REFRESH.md` referenced from `update_method` when the recipe is complex. Fold repeatable pruning into the recipe.
+10. **Add a `CORPUS_INDEX.md` row** for the collection (one row per collection, not per file).
+11. **Privacy scan** the acquired content (see boundaries below).
+12. **Link related KBs.** If a curated entry relies on this corpus, link to it from that entry and list the `kbNNNN` ID under `related_kb`.
+13. **Verify** (see below).
 
 ## Manifest Mapping Per Method
 
@@ -109,19 +110,48 @@ Always set `license` from the upstream project, `formats` to what landed in `doc
 
 - Set `privacy: verified-clean` in the manifest only after scanning, or describe any redactions.
 
+## Analyze For Unnecessary Files
+
+Acquisition methods routinely pull in more than the documentation itself. After every create and every refresh, analyze `docs/` and prune anything that is not useful source documentation. Keep the corpus focused on retrievable text so search stays clean and the collection stays shareable.
+
+Treat the following as candidates for removal unless the user explicitly wants them:
+
+- **Repo/build cruft** carried over from a clone: `.git/`, `.github/`, CI configs, `node_modules/`, `vendor/`, lockfiles, `Makefile`, build scripts, `package.json`, test fixtures.
+- **Non-doc project files**: top-level `LICENSE`/`CODE_OF_CONDUCT`/`CONTRIBUTING` are usually noise inside `docs/` (record the license in `corpus.yaml` instead), along with editor/OS junk like `.DS_Store`, `Thumbs.db`, and `.idea/`.
+- **Binaries and heavy assets**: images, video, fonts, PDFs, archives, and generated diagrams, unless a doc genuinely depends on them.
+- **Site/navigation chrome** from mirrors: standalone nav, header/footer, search-index, and redirect pages; empty or near-empty stub pages.
+- **Duplicates and noise**: duplicated content, generated API dumps that bloat without adding value, and changelogs when the user only wants reference docs.
+
+How to analyze:
+
+```bash
+# Inventory by extension to spot non-text formats
+find corpus/{category}/{slug}/docs -type f | sed 's/.*\.//' | sort | tr A-Z a-z | uniq -c | sort -rn
+
+# Find the largest files (often binaries or generated dumps)
+find corpus/{category}/{slug}/docs -type f -exec du -h {} + | sort -rh | head -n 20
+
+# Spot common cruft that should not live in docs/
+rg --files corpus/{category}/{slug}/docs | rg -i '\.(png|jpg|jpeg|gif|svg|pdf|zip|tar|gz|woff2?|ttf|mp4)$|/(node_modules|\.git|\.github)/|/(package(-lock)?\.json|yarn\.lock)$|\.DS_Store$'
+```
+
+Remove what does not belong, and record what you dropped in the `excludes` field of `corpus.yaml`. If a removal step is repeatable, fold it into the refresh recipe (`update_method` or `REFRESH.md`) so future refreshes prune the same things automatically. When unsure whether a file is needed (for example, an image a doc references), keep it and note the decision rather than guessing.
+
 ## Refreshing An Existing Corpus
 
 1. Read the recorded refresh recipe: the `update_method` field, or the collection-local `REFRESH.md`/`refresh.sh` it points to.
 2. Re-run the recorded steps (or follow the manual actions for a `manual-only` corpus).
 3. Replace the contents of `docs/` with the fresh copy.
-4. Re-run the privacy scan on the refreshed content.
-5. Bump `retrieved` and, if it changed, `version` in `corpus.yaml`. Update the recipe itself if the source layout or commands changed.
-6. Update the collection's row in `CORPUS_INDEX.md`.
+4. Re-analyze for unnecessary files and prune cruft, binaries, chrome, and duplicates (see below); update `excludes` if it changed.
+5. Re-run the privacy scan on the refreshed content.
+6. Bump `retrieved` and, if it changed, `version` in `corpus.yaml`. Update the recipe itself if the source layout or commands changed.
+7. Update the collection's row in `CORPUS_INDEX.md`.
 
 ## Verify
 
 - The collection exists at `corpus/{category}/{slug}/` with a filled-in `corpus.yaml` and a populated `docs/`.
 - `update_method` contains an actionable refresh recipe (or points to a collection-local `REFRESH.md`), satisfying the Self-Refresh Contract.
+- `docs/` was analyzed for unnecessary files; cruft, binaries, chrome, and duplicates were pruned and reflected in `excludes`.
 - A matching row exists in `CORPUS_INDEX.md`.
 - No `kbNNNN` ID was assigned and nothing was added to `INDEX.md`.
 - Run `python3 tools/validate.py` to confirm the KB side is still consistent (the corpus lives outside KB validation, so this should be unaffected).
@@ -133,4 +163,5 @@ Report:
 - The collection path and the acquisition method used.
 - A rough sense of size (file count and whether it is large).
 - Manifest completeness, the recorded refresh recipe (and where it lives), and the `CORPUS_INDEX.md` row added.
+- The unnecessary-files analysis: what was pruned (or that nothing needed pruning) and what is recorded in `excludes`.
 - Any privacy findings or redactions, and any related KB IDs linked.

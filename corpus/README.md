@@ -71,7 +71,7 @@ Capture this in `update_method` as an actionable recipe, not a one-word label. A
 - **Simple corpora**: keep the recipe inline in `update_method` (e.g. one clone/copy command plus exclusions and the privacy scan).
 - **Complex corpora**: put the full recipe in a collection-local `REFRESH.md` (or a `refresh.sh` script with a shebang, executable bit, and usage comment) and set `update_method: "see REFRESH.md"`. Never embed secrets in the recipe or any script.
 
-To refresh later, follow the recorded recipe, replace the contents of `docs/`, re-run the privacy scan, and bump `retrieved` (and `version` if it changed) in `corpus.yaml`, then update the [CORPUS_INDEX.md](../CORPUS_INDEX.md) row.
+To refresh later, follow the recorded recipe, replace the contents of `docs/`, re-analyze for unnecessary files, re-run the privacy scan, and bump `retrieved` (and `version` if it changed) in `corpus.yaml`, then update the [CORPUS_INDEX.md](../CORPUS_INDEX.md) row.
 
 ## Adding a corpus
 
@@ -82,9 +82,10 @@ For the full agent workflow, including how to find and collect source docs, foll
 3. Copy `corpus/_template/corpus.yaml` into it and fill in every field, including an actionable `update_method` refresh recipe (or a `REFRESH.md` it points to).
 4. Import the documentation under `docs/`, preserving the upstream structure.
 5. Prefer Markdown or plain text. Avoid committing large binaries, archives, or images unless explicitly needed (the repo `.gitignore` already excludes most archive types).
-6. Remove or redact anything private: secrets, tokens, signed URLs, internal hostnames, customer data.
-7. Add a row to [CORPUS_INDEX.md](../CORPUS_INDEX.md) for the new collection.
-8. If a KB entry relies on this corpus, link to it from that entry and list the `kbNNNN` ID under `related_kb`.
+6. Analyze `docs/` for unnecessary files and prune them (repo/build cruft, binaries, navigation chrome, duplicates), then record what you dropped in the `excludes` field. Do this after every create and every refresh; see [kb-create-corpus](../.agents/skills/kb-create-corpus/SKILL.md) for the analysis commands.
+7. Remove or redact anything private: secrets, tokens, signed URLs, internal hostnames, customer data.
+8. Add a row to [CORPUS_INDEX.md](../CORPUS_INDEX.md) for the new collection.
+9. If a KB entry relies on this corpus, link to it from that entry and list the `kbNNNN` ID under `related_kb`.
 
 ## How agents should use the corpus
 
