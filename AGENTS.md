@@ -170,6 +170,28 @@ For the full workflow, including the acquisition method ladder and manifest mapp
 - The source is huge or contains many binaries and you need to confirm scope or format.
 - The source may contain secrets, credentials, private URLs, or customer data.
 
+## When the user says "update from the reference KB"
+
+Use this when a downstream (consumer) copy of this framework wants to refresh its **framework mechanics** from the upstream **reference** repository it was copied or cloned from. This updates framework-owned files only; it never overwrites the consumer's own knowledge.
+
+For the full workflow, including reference discovery, the conflict policy, and file-ownership rules, follow `.agents/skills/kb-update-from-reference/SKILL.md`.
+
+### Update checklist
+
+1. **Confirm intent.** The user wants framework updates, not new KB content. To import reference *entries*, use the "turn this into a KB" workflow with new IDs instead.
+2. **Inspect the working tree.** Run `git status`; if framework-owned files have uncommitted edits, ask before overwriting (recommend commit or stash first).
+3. **Identify the reference source** in order: user-provided path/URL, a configured git remote (e.g. `upstream`), or ask.
+4. **Sync framework-owned paths**: `AGENTS.md`, `CLAUDE.md`, `README.md`, `CONTRIBUTING.md`, `_template/`, `tools/`, `.agents/skills/`, `corpus/README.md`, `corpus/_template/`. Merge `tags.md` as a union.
+5. **Protect consumer-owned paths**: never overwrite `kb/**`, `corpus/*/*/docs/`, `INDEX.md`, `CORPUS_INDEX.md`, `.gitignore`, or private data without explicit instruction. Regenerate indexes rather than copying them.
+6. **Apply the conflict policy**: fast-forward unchanged framework files, flag locally edited framework files (including `kb0001`/`kb0002`) for review, and never auto-overwrite consumer knowledge.
+7. **Regenerate and validate**: run `python3 tools/generate_index.py` only if KB frontmatter or paths changed, then `python3 tools/validate.py`.
+
+### When to ask before updating from the reference
+
+- The reference source is unknown or ambiguous.
+- Framework-owned files have uncommitted local changes.
+- The user appears to want reference *content* (KB entries or corpus docs) rather than framework mechanics.
+
 ## Other agent tasks
 
 ### Updating an existing KB

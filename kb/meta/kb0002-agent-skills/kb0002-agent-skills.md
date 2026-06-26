@@ -33,6 +33,7 @@ The skill files are not KB entries. They are native operating instructions for a
 - [kb-plan-context](../../../.agents/skills/kb-plan-context/SKILL.md) -- gather relevant KB context before planning or scoping work.
 - [kb-save-skill](../../../.agents/skills/kb-save-skill/SKILL.md) -- preserve a reusable agent skill as a native `SKILL.md` workflow.
 - [kb-search](../../../.agents/skills/kb-search/SKILL.md) -- search and answer from KB content with citations.
+- [kb-update-from-reference](../../../.agents/skills/kb-update-from-reference/SKILL.md) -- update a consumer KB from the reference framework repo while preserving consumer-owned content.
 
 ## Layout
 
@@ -44,7 +45,8 @@ The skill files are not KB entries. They are native operating instructions for a
 ├── kb-maintenance/SKILL.md
 ├── kb-plan-context/SKILL.md
 ├── kb-save-skill/SKILL.md
-└── kb-search/SKILL.md
+├── kb-search/SKILL.md
+└── kb-update-from-reference/SKILL.md
 ```
 
 Keep global agent skills at `.agents/skills/<name>/SKILL.md` so agents can find them quickly. Keep entry-local artifacts under the relevant KB entry's `data/` directory.

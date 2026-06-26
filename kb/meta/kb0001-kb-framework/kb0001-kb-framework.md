@@ -107,6 +107,12 @@ rg "^last_verified:" kb/ | sort -t: -k3
 - The `kbNNNN-short-title.md` stems keep each note distinct in the quick switcher and graph.
 - Add `aliases:` in frontmatter if you want a friendlier display name (e.g. `aliases: [SSH key rotation]`).
 
+## Updating from the reference framework
+
+This repository is a starter framework. When you copy or clone it, your repo becomes a **consumer** of the upstream **reference** framework. To pull later framework improvements (skills, tooling, templates, conventions) without disturbing your own content, say **"update from the reference KB"**; the workflow lives at [.agents/skills/kb-update-from-reference/SKILL.md](../../../.agents/skills/kb-update-from-reference/SKILL.md).
+
+The update tracks framework-owned files (`AGENTS.md`, `README.md`, `CONTRIBUTING.md`, `_template/`, `tools/`, `.agents/skills/`, `corpus/README.md`, `corpus/_template/`) and merges `tags.md`, but never overwrites consumer-owned knowledge: `kb/**` entries, `corpus/*/*/docs/`, the generated `INDEX.md` and `CORPUS_INDEX.md`, and local configuration. Locally edited framework files (including this entry and `kb0002`) are flagged for review rather than clobbered.
+
 ## References
 
 - [README.md](../../../README.md) -- human-facing usage guide

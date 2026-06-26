@@ -123,6 +123,18 @@ Native [.agents/skills/](.agents/skills/) contains reusable, agent-agnostic work
 - [kb-plan-context](.agents/skills/kb-plan-context/SKILL.md)
 - [kb-save-skill](.agents/skills/kb-save-skill/SKILL.md)
 - [kb-search](.agents/skills/kb-search/SKILL.md)
+- [kb-update-from-reference](.agents/skills/kb-update-from-reference/SKILL.md)
+
+## Updating From The Reference Framework
+
+This repository is a starter framework. When you copy or clone it for your own KB, your repo becomes a **consumer** of the upstream **reference** framework. Over time the reference may ship improved skills, tooling, templates, and conventions.
+
+To pull those framework updates without disturbing your own content, ask an agent to **"update from the reference KB"**. The workflow lives at [.agents/skills/kb-update-from-reference/SKILL.md](.agents/skills/kb-update-from-reference/SKILL.md) and follows these rules:
+
+- **Framework files track upstream**: `AGENTS.md`, `README.md`, `CONTRIBUTING.md`, `_template/`, `tools/`, `.agents/skills/`, `corpus/README.md`, and `corpus/_template/`.
+- **Your knowledge is never overwritten**: `kb/**` entries, `corpus/*/*/docs/`, the generated `INDEX.md` and `CORPUS_INDEX.md`, and local configuration stay yours.
+- **`tags.md` is merged**, not replaced, so your custom tags survive.
+- Files you have edited locally are flagged for review instead of being clobbered, and the index is regenerated and validated after the update.
 
 ## Searching
 

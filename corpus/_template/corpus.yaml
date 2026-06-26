@@ -27,7 +27,26 @@ retrieved: ""
 # Upstream license and any usage constraints, e.g. "Apache-2.0".
 license: ""
 
-# How to refresh this corpus: a command, script path, or manual steps.
+# How to refresh this corpus in the future. This is a self-refresh contract:
+# a future agent or human must be able to refresh the corpus from what is
+# recorded here alone, without rediscovering how it was originally acquired.
+# Make it an actionable recipe, not a one-word label. Capture:
+#   - acquisition type: user-provided | llms.txt | repo-clone | site-mirror
+#   - refresh mode: automated | partially-manual | manual-only
+#   - source: the exact URL/repo/origin to pull from
+#   - steps: exact commands or manual actions to land fresh content in docs/,
+#     including the docs subpath copied and any branch/tag/commit pinning
+#   - prerequisites: tools required (e.g. git, rsync, pandoc), if any
+#   - post-processing: any conversion/pruning/normalization applied
+#   - exclusions: what is intentionally dropped (mirror the `excludes` field)
+#   - validation: the privacy scan and any other checks to run
+# If the recipe is long or scripted, put it in a collection-local REFRESH.md
+# (or refresh.sh) and set: update_method: "see REFRESH.md". Never embed secrets.
+# Example:
+#   update_method: >-
+#     automated (repo-clone): git clone --depth 1
+#     https://github.com/example/project.git, copy docs/. into docs/,
+#     exclude images and archives, then run the privacy scan. Requires git.
 update_method: ""
 
 # Formats present in this corpus, e.g. [markdown] or [markdown, text].

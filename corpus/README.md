@@ -26,6 +26,7 @@ corpus/
     └── helm/
         ├── corpus.yaml     # required manifest (provenance + metadata)
         ├── README.md       # optional human overview of this corpus
+        ├── REFRESH.md      # optional refresh recipe when too long for corpus.yaml
         └── docs/           # the actual imported documentation tree
             ├── intro.md
             └── ...
@@ -54,12 +55,23 @@ Minimum fields:
 - `version` -- upstream version or release the snapshot represents.
 - `retrieved` -- `YYYY-MM-DD` the content was imported or last refreshed.
 - `license` -- upstream license and any usage constraints.
-- `update_method` -- how to refresh (command, script, or manual steps).
+- `update_method` -- an actionable recipe for refreshing the corpus (see "Every corpus refreshes itself" below).
 - `formats` -- formats present (e.g. `[markdown]`).
 - `excludes` -- what was intentionally left out (e.g. binaries, images).
 - `privacy` -- confirmation there is no private or sensitive material.
 - `aliases` -- alternate search terms (e.g. `[charts, helm charts]`).
 - `related_kb` -- optional list of `kbNNNN` IDs that reference this corpus.
+
+## Every corpus refreshes itself
+
+Corpora are created in many different ways: one may clone a GitHub or GitLab repo, another may fetch an `llms-full.txt`, another may mirror a documentation website, and another may be handed over directly by a user. Because the acquisition method is corpus-specific and unpredictable, **each corpus must carry its own future refresh instructions**. A future agent or human should be able to refresh a corpus from what is recorded in the collection alone, without rediscovering how it was originally built.
+
+Capture this in `update_method` as an actionable recipe, not a one-word label. A good recipe records the acquisition type (`user-provided`, `llms.txt`, `repo-clone`, `site-mirror`), the refresh mode (`automated`, `partially-manual`, `manual-only`), the source, the exact fetch/copy steps, any prerequisites and post-processing, the exclusions, and the validation (privacy) scan.
+
+- **Simple corpora**: keep the recipe inline in `update_method` (e.g. one clone/copy command plus exclusions and the privacy scan).
+- **Complex corpora**: put the full recipe in a collection-local `REFRESH.md` (or a `refresh.sh` script with a shebang, executable bit, and usage comment) and set `update_method: "see REFRESH.md"`. Never embed secrets in the recipe or any script.
+
+To refresh later, follow the recorded recipe, replace the contents of `docs/`, re-run the privacy scan, and bump `retrieved` (and `version` if it changed) in `corpus.yaml`, then update the [CORPUS_INDEX.md](../CORPUS_INDEX.md) row.
 
 ## Adding a corpus
 
@@ -67,7 +79,7 @@ For the full agent workflow, including how to find and collect source docs, foll
 
 1. Pick a category (usually `products/`) and a lowercase kebab-case slug.
 2. Create `corpus/{category}/{slug}/`.
-3. Copy `corpus/_template/corpus.yaml` into it and fill in every field.
+3. Copy `corpus/_template/corpus.yaml` into it and fill in every field, including an actionable `update_method` refresh recipe (or a `REFRESH.md` it points to).
 4. Import the documentation under `docs/`, preserving the upstream structure.
 5. Prefer Markdown or plain text. Avoid committing large binaries, archives, or images unless explicitly needed (the repo `.gitignore` already excludes most archive types).
 6. Remove or redact anything private: secrets, tokens, signed URLs, internal hostnames, customer data.
