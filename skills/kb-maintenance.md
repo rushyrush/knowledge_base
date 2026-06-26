@@ -20,7 +20,7 @@ Use this skill after manual edits, merges, large content imports, skill changes,
    python3 tools/validate.py
    ```
 
-3. Scan for secrets and private material before sharing:
+3. Scan for secrets and private material before sharing (includes `corpus/`, which holds imported source docs):
 
    ```bash
    rg -i "token|secret|password|credential|private key|api[_-]?key" .
@@ -50,7 +50,13 @@ Use this skill after manual edits, merges, large content imports, skill changes,
    - Entry-local source material, raw notes, transcripts, pasted docs, scripts, configs, inventories, diagrams, screenshots, exported logs, generated outputs, and other accompanying artifacts belong under the relevant entry's `data/` directory.
    - Root-level `skills/*.md` files are global agent skills, not entry-local support files.
    - Scripts listed in frontmatter must exist, be executable, have a shebang, and include a usage comment.
-10. Check framework alignment: `README.md`, `AGENTS.md`, `kb0001`, `kb0002`, `tags.md`, `_template/kb.md`, and `skills/*.md` should describe the same conventions.
+10. Verify the corpus:
+    - Each collection under `corpus/{category}/{slug}/` has a `corpus.yaml` manifest with provenance fields filled in (source_url, version, retrieved, license, update_method, privacy).
+    - Every collection has a row in `CORPUS_INDEX.md`, and every `CORPUS_INDEX.md` row maps to a real collection.
+    - `corpus/` contains no `kbNNNN` IDs and no entries leak into `INDEX.md`.
+    - Corpus docs are free of secrets, signed URLs, internal hostnames, and customer data.
+    - Prefer Markdown/text; flag large binaries or archives that should not be committed.
+11. Check framework alignment: `README.md`, `AGENTS.md`, `kb0001`, `kb0002`, `tags.md`, `_template/kb.md`, `corpus/README.md`, `CORPUS_INDEX.md`, and `skills/*.md` should describe the same conventions.
 
 ## Completion
 

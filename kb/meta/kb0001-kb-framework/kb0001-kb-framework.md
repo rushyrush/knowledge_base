@@ -9,7 +9,7 @@ status: active
 last_verified: 2026-06-12
 data_gaps: []
 created: 2026-05-02
-updated: 2026-06-12
+updated: 2026-06-26
 ---
 
 ## Context
@@ -19,6 +19,17 @@ This repository is a starter framework for a personal knowledge base. It is desi
 Each entry has a permanent `kbNNNN` ID, a readable slug, YAML frontmatter, and a body shaped for the type of information being captured. Entries can also include nearby entry-local artifacts in a `data/` directory.
 
 The full conventions live in [README.md](../../../README.md) for humans, [CONTRIBUTING.md](../../../CONTRIBUTING.md) for contributors, and [AGENTS.md](../../../AGENTS.md) for agents. This entry is the worked example.
+
+## Two kinds of knowledge
+
+The repository deliberately separates curated knowledge from source knowledge so people and agents never confuse them:
+
+- **`kb/` (curated knowledge)** -- authored, summarized entries with stable `kbNNNN` IDs, indexed in [INDEX.md](../../../INDEX.md). This is *what you know*: conventions, how-tos, runbooks, decisions.
+- **`corpus/` (source knowledge)** -- complete or near-complete upstream documentation preserved verbatim, indexed in [CORPUS_INDEX.md](../../../CORPUS_INDEX.md), with no `kbNNNN` IDs. This is *what you have*: full product docs, API references, imported Markdown trees.
+
+A *corpus* is a collection of source material gathered for retrieval and reference. To give an agent the full Helm documentation, import it as a corpus at `corpus/products/helm/` instead of compressing it into one KB entry; a curated entry can then link to that corpus for deep detail. See [corpus/README.md](../../../corpus/README.md) for the corpus workflow.
+
+When answering questions, search curated KB first, then the corpus: if a KB entry references a corpus, follow it; if only the corpus matches, answer from it and note that it is source documentation rather than curated guidance.
 
 ## Layout
 

@@ -30,27 +30,46 @@ KB/
 ├── CONTRIBUTING.md                 # lightweight contribution checklist
 ├── AGENTS.md                       # canonical instructions agents follow
 ├── CLAUDE.md                       # symlink compatibility alias to AGENTS.md
-├── INDEX.md                        # searchable index generated from frontmatter
+├── INDEX.md                        # searchable index of curated KB entries
+├── CORPUS_INDEX.md                 # discovery index of source-doc collections
 ├── skills/                         # root-level agent skills for KB maintenance
 ├── _template/kb.md                 # copy + rename when adding a new entry
 ├── tags.md                         # canonical tag taxonomy
 ├── tools/                          # index generator and validator
-└── kb/
-    ├── meta/                       # KBs about the KB itself
-    └── {topic}/                    # one folder per topic, lowercase kebab-case
-        └── kbNNNN-short-title/     # every KB is a directory with a unique stem
-            ├── kbNNNN-short-title.md   # the KB note (filename matches directory)
-            └── data/               # entry-local artifacts
-                ├── source-notes.md
-                ├── script.sh
-                ├── config.yaml
-                └── exported-log.txt
+├── kb/
+│   ├── meta/                       # KBs about the KB itself
+│   └── {topic}/                    # one folder per topic, lowercase kebab-case
+│       └── kbNNNN-short-title/     # every KB is a directory with a unique stem
+│           ├── kbNNNN-short-title.md   # the KB note (filename matches directory)
+│           └── data/               # entry-local artifacts
+│               ├── source-notes.md
+│               ├── script.sh
+│               ├── config.yaml
+│               └── exported-log.txt
+└── corpus/                         # full source documentation collections
+    ├── README.md                   # what a corpus is and how to add one
+    ├── _template/corpus.yaml       # manifest template for a new corpus
+    └── products/
+        └── {product}/              # one corpus collection per product
+            ├── corpus.yaml         # required provenance manifest
+            └── docs/               # the imported documentation tree
 ```
 
 - **Directory = KB.** Every entry lives at `kb/{topic}/kbNNNN-short-title/kbNNNN-short-title.md` where `NNNN` is a zero-padded 4-digit number, globally unique across all topics, and `short-title` is a lowercase kebab-case slug derived from the title (3-4 keywords is plenty).
 - **Entry-local artifacts go in `data/`.** When a KB includes source material, raw notes, transcripts, pasted docs, scripts, configs, inventories, diagrams, screenshots, exported logs, generated outputs, or other files, place them in a `data/` subdirectory inside the entry directory. No ID prefix is needed on filenames inside `data/` because the parent directory already carries the ID.
 - **Global agent skills go in `skills/`.** Root-level `skills/*.md` files are immediately discoverable workflows for maintaining KB quality. Do not bury global skills inside an entry's `data/` directory.
 - **Topics** are lowercase kebab-case folders (`kb/git/`, `kb/cloud/`, `kb/incident-response/`). Reuse an existing folder before creating a new one.
+
+## KB vs Corpus
+
+This repo holds two kinds of knowledge, kept deliberately separate so people and agents never confuse them:
+
+- **`kb/` is curated knowledge.** Authored, summarized entries with stable `kbNNNN` IDs, indexed in `INDEX.md`. This is *what you know*: conventions, how-tos, runbooks, decisions.
+- **`corpus/` is source knowledge.** Complete or near-complete upstream documentation preserved verbatim, indexed in `CORPUS_INDEX.md`. This is *what you have*: full product docs, API references, imported Markdown trees.
+
+A corpus is a collection of source material gathered for retrieval and reference. For example, to give an agent the full Helm documentation, import it as a corpus at `corpus/products/helm/` rather than trying to compress it into a single KB entry. Curated KB entries can then reference the corpus for deep detail.
+
+See [corpus/README.md](corpus/README.md) for the corpus workflow and [CORPUS_INDEX.md](CORPUS_INDEX.md) for the discovery index.
 
 ## Adding An Entry Manually
 
@@ -99,6 +118,7 @@ Root-level [skills/](skills/) contains reusable, agent-agnostic workflows for ma
 
 - [kb-add-link](skills/kb-add-link.md)
 - [kb-create](skills/kb-create.md)
+- [kb-create-corpus](skills/kb-create-corpus.md)
 - [kb-maintenance](skills/kb-maintenance.md)
 - [kb-plan-context](skills/kb-plan-context.md)
 - [kb-save-skill](skills/kb-save-skill.md)
@@ -132,6 +152,10 @@ rg "^scripts:" kb/
 
 # Find stale entries
 rg "^last_verified:" kb/ | sort -t: -k3
+
+# Discover a source-doc collection, then search its full text
+rg -i "<term>" CORPUS_INDEX.md
+rg -i "<term>" corpus/
 ```
 
 When linking between entries, use the ID inline (e.g. `kb0001`) and a relative markdown link to the note path when helpful, e.g. `[SSH key rotation](../kb0042-ssh-key-rotation/kb0042-ssh-key-rotation.md)` for same-topic peers.

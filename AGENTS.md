@@ -1,6 +1,6 @@
 <!-- FOR AI AGENTS - Human readability is a side effect, not the goal -->
 <!-- Managed by agent: keep sections and order; edit content, not structure -->
-<!-- Last updated: 2026-06-12 | Last verified: 2026-06-12 -->
+<!-- Last updated: 2026-06-26 | Last verified: 2026-06-26 -->
 
 # AGENTS.md
 
@@ -10,16 +10,24 @@ Instructions for agents working in this knowledge base framework.
 
 The KB is organized as a reusable framework: every entry lives at `kb/{topic}/kbNNNN-short-title/kbNNNN-short-title.md`, with optional `data/` beside the note for source material, raw notes, transcripts, pasted docs, scripts, configs, inventories, diagrams, screenshots, exported logs, generated outputs, and other accompanying artifacts. The hybrid stem (matching directory name and note filename) keeps each note unique in Obsidian's quick switcher, backlinks, and graph view while keeping support files local to the entry.
 
+This repository holds two distinct kinds of knowledge. Keep them separate and never conflate them:
+
+- **`kb/` is curated knowledge** -- authored, summarized entries with stable `kbNNNN` IDs, indexed in `INDEX.md`.
+- **`corpus/` is source knowledge** -- complete or near-complete upstream documentation preserved verbatim, indexed in `CORPUS_INDEX.md`, with no `kbNNNN` IDs.
+
+A *corpus* is a collection of source material gathered for retrieval and reference (for example, the full Helm docs at `corpus/products/helm/`). Curated KB entries may reference a corpus for deep detail. See `corpus/README.md` for the corpus workflow.
+
 ## Project facts
 
 | Area | Fact |
 | --- | --- |
 | Project type | Markdown knowledge base / Obsidian vault |
 | Primary content | KB notes under `kb/{topic}/kbNNNN-short-title/` |
+| Source docs | Full documentation collections under `corpus/{category}/{slug}/` |
 | Automation | Python maintenance scripts in `tools/` |
-| Template | `_template/kb.md` |
+| Template | `_template/kb.md`; corpus manifest `corpus/_template/corpus.yaml` |
 | Tag source | `tags.md` |
-| Index | `INDEX.md`, generated from entry frontmatter |
+| Index | `INDEX.md` for KB entries; `CORPUS_INDEX.md` for corpus collections |
 | Agent skills | Root-level generic skills in `skills/*.md` |
 | Scoped agent files | None currently; this root file applies repo-wide |
 
@@ -33,6 +41,8 @@ Run commands from the repository root.
 | Validate KB structure | `python3 tools/validate.py` |
 | Search index | `rg -i "<term>" INDEX.md` |
 | Search entries | `rg -i "<term>" kb/` |
+| Search corpus index | `rg -i "<term>" CORPUS_INDEX.md` |
+| Search corpus docs | `rg -i "<term>" corpus/` |
 | Filter by tag | `rg -n "^tags:.*\b<tag>\b" kb/` |
 | Find script entries | `rg "^scripts:" kb/` |
 | Survey existing tags | `rg -h "^tags:" kb/ \| tr -d '[]' \| tr ',' '\n' \| sed 's/tags://' \| sort -u` |
@@ -46,8 +56,12 @@ Run commands from the repository root.
 | `AGENTS.md` | Canonical cross-agent workflow and hard rules |
 | `CLAUDE.md` | Symlink compatibility alias to `AGENTS.md` |
 | `INDEX.md` | Generated searchable table of all KB entries |
+| `CORPUS_INDEX.md` | Discovery index of full source-doc collections under `corpus/` |
 | `tags.md` | Canonical tag vocabulary |
 | `_template/kb.md` | Frontmatter and body template for new entries |
+| `corpus/` | Full source documentation collections (one per `corpus/{category}/{slug}/`) |
+| `corpus/README.md` | What a corpus is and how to add one |
+| `corpus/_template/corpus.yaml` | Required provenance manifest template for a new corpus |
 | `tools/generate_index.py` | Rebuilds `INDEX.md` from frontmatter |
 | `tools/validate.py` | Validates entry layout, frontmatter, scripts, tags, and index consistency |
 | `skills/` | Root-level reusable agent skills for maintaining KB quality |
@@ -133,6 +147,29 @@ Ask only when one of these is true:
 
 Otherwise, do the work and report what you created.
 
+## When the user says "add this as a corpus"
+
+Use this when the user wants to preserve **complete or near-complete source documentation** (e.g. "put all the Helm docs in the knowledge base") rather than a curated summary. Do not allocate a `kbNNNN` ID and do not add it to `INDEX.md`.
+
+For the full workflow, including the acquisition method ladder and manifest mapping, follow `skills/kb-create-corpus.md`.
+
+### Corpus checklist
+
+1. **Confirm it is a corpus, not a KB.** A corpus is full upstream documentation kept for retrieval. If the user really wants a curated summary, follow the "turn this into a KB" workflow instead.
+2. **Pick a category and slug.** Usually `corpus/products/{slug}/` with a lowercase kebab-case slug (e.g. `helm`). Add a new top-level category only if `products` does not fit.
+3. **Create the collection directory.** `corpus/{category}/{slug}/`.
+4. **Add the manifest.** Copy `corpus/_template/corpus.yaml` to `corpus/{category}/{slug}/corpus.yaml` and fill in every field (name, slug, description, source_url, version, retrieved, license, update_method, formats, excludes, privacy, aliases, related_kb).
+5. **Import the docs.** Place the documentation under `corpus/{category}/{slug}/docs/`, mirroring the upstream structure. Prefer Markdown or text. Avoid large binaries, archives, and images unless explicitly requested.
+6. **Redact private material.** Never commit secrets, tokens, signed URLs, internal hostnames, or customer data.
+7. **Add a row to `CORPUS_INDEX.md`** for the new collection (one row per collection, not per file).
+8. **Link from related KBs.** If a curated entry relies on this corpus, link to it from that entry and list the `kbNNNN` ID under `related_kb` in the manifest.
+
+### When to ask before adding a corpus
+
+- It is unclear whether the user wants a full corpus or a curated KB entry.
+- The source is huge or contains many binaries and you need to confirm scope or format.
+- The source may contain secrets, credentials, private URLs, or customer data.
+
 ## Other agent tasks
 
 ### Updating an existing KB
@@ -149,16 +186,31 @@ Otherwise, do the work and report what you created.
 - Add a note at the top of the body explaining why and pointing to any replacement.
 - Regenerate the index.
 
-### Searching the KB
+### Searching the KB and corpus
 
-Before answering questions from this KB, search both the index and the full text:
+Before answering knowledge questions, search in this order:
 
-```bash
-rg -i "{term}" INDEX.md
-rg -i "{term}" kb/
-```
+1. Curated KB first -- the index and full text:
 
-Cite hits by ID (e.g. `kb0042`) and link to the file with a relative markdown link.
+   ```bash
+   rg -i "{term}" INDEX.md
+   rg -i "{term}" kb/
+   ```
+
+2. Source documentation next -- the corpus discovery index and full text:
+
+   ```bash
+   rg -i "{term}" CORPUS_INDEX.md
+   rg -i "{term}" corpus/
+   ```
+
+Resolution rules:
+
+- If a KB entry references a corpus, follow that reference for deeper product detail.
+- If no KB entry matches but corpus material does, answer from the corpus and state that it is source documentation, not curated KB guidance.
+- If KB guidance and corpus docs conflict, prefer the KB for local conventions and cite the corpus for upstream behavior.
+
+Cite KB hits by ID (e.g. `kb0042`) with a relative markdown link. Cite corpus hits by collection and file path (e.g. `corpus/products/helm/docs/intro.md`).
 
 ### Adding links
 
@@ -166,7 +218,7 @@ Use the link inbox at `kb/links/kb0003-link-inbox/kb0003-link-inbox.md` when the
 
 ### Maintaining KB purity
 
-Use `skills/kb-maintenance.md` after manual edits, merges, large imports, skill changes, or before sharing a copy of the KB. It checks index validity, structure, stale entries, tags, relative links, private material, tool-specific leakage, and alignment across `README.md`, `AGENTS.md`, `kb0001`, `kb0002`, `_template/kb.md`, and `skills/*.md`.
+Use `skills/kb-maintenance.md` after manual edits, merges, large imports, skill changes, or before sharing a copy of the KB. It checks index validity, structure, stale entries, tags, relative links, private material, tool-specific leakage, corpus provenance and shareability, and alignment across `README.md`, `AGENTS.md`, `kb0001`, `kb0002`, `_template/kb.md`, and `skills/*.md`.
 
 ### Hard rules
 
@@ -178,6 +230,7 @@ Use `skills/kb-maintenance.md` after manual edits, merges, large imports, skill 
 - **One primary Markdown note per entry directory.** The note filename stem must equal the entry directory name.
 - **Use `data/` for entry-local artifacts.** Source material, raw notes, transcripts, pasted docs, scripts, configs, inventories, diagrams, screenshots, exported logs, generated outputs, and other files that belong with a single KB entry live under that entry's `data/` directory.
 - **Use `skills/` for global agent skills.** Root-level `skills/*.md` files are not entry-local artifacts; they are discoverable instructions for maintaining KB quality.
+- **Keep `corpus/` separate from `kb/`.** `corpus/` holds full source documentation collections, never `kbNNNN` IDs and never rows in `INDEX.md`. Each collection needs a `corpus.yaml` manifest and a row in `CORPUS_INDEX.md`. Do not put curated KB entries in `corpus/`, and do not put full doc dumps in `kb/`.
 
 ## Scoped agent guidance
 

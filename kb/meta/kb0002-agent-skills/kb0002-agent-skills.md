@@ -9,7 +9,7 @@ status: active
 last_verified: 2026-06-12
 data_gaps: []
 created: 2026-06-12
-updated: 2026-06-12
+updated: 2026-06-26
 ---
 
 ## Context
@@ -28,6 +28,7 @@ The skill files are not KB entries. They are root-level operating instructions f
 
 - [kb-add-link](../../../skills/kb-add-link.md) -- save, normalize, deduplicate, and annotate URLs in the link inbox.
 - [kb-create](../../../skills/kb-create.md) -- create, update, and deprecate KB entries while preserving framework invariants.
+- [kb-create-corpus](../../../skills/kb-create-corpus.md) -- build a `corpus/` collection of full source documentation from user-provided or agent-collected sources.
 - [kb-maintenance](../../../skills/kb-maintenance.md) -- audit KB purity, shareability, links, tags, stale entries, and framework drift.
 - [kb-plan-context](../../../skills/kb-plan-context.md) -- gather relevant KB context before planning or scoping work.
 - [kb-save-skill](../../../skills/kb-save-skill.md) -- preserve a reusable agent skill as a root-level Markdown workflow.
@@ -39,6 +40,7 @@ The skill files are not KB entries. They are root-level operating instructions f
 skills/
 ├── kb-add-link.md
 ├── kb-create.md
+├── kb-create-corpus.md
 ├── kb-maintenance.md
 ├── kb-plan-context.md
 ├── kb-save-skill.md

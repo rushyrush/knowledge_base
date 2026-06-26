@@ -1,0 +1,47 @@
+# Corpus manifest. Copy this file into a new collection directory:
+#
+#   corpus/{category}/{slug}/corpus.yaml
+#
+# Fill in every field. This manifest captures provenance so the corpus stays
+# trustworthy and refreshable, and it is the source for CORPUS_INDEX.md rows.
+# Never put secrets, tokens, signed URLs, or private data in a corpus.
+
+# Human title of the collection, e.g. "Helm".
+name: ""
+
+# Directory slug, lowercase kebab-case, e.g. "helm". Matches the folder name.
+slug: ""
+
+# One line; front-load key nouns. This is the primary discovery text.
+description: ""
+
+# Where the documentation came from (canonical upstream URL or repo).
+source_url: ""
+
+# Upstream version or release this snapshot represents, e.g. "v3.16".
+version: ""
+
+# Date the content was imported or last refreshed (YYYY-MM-DD).
+retrieved: ""
+
+# Upstream license and any usage constraints, e.g. "Apache-2.0".
+license: ""
+
+# How to refresh this corpus: a command, script path, or manual steps.
+update_method: ""
+
+# Formats present in this corpus, e.g. [markdown] or [markdown, text].
+formats: [markdown]
+
+# What was intentionally left out, e.g. [images, binaries, changelogs].
+excludes: []
+
+# Confirmation that no private or sensitive material is included.
+# Use "verified-clean" once you have checked, or describe redactions.
+privacy: "verified-clean"
+
+# Alternate search terms to help discovery, e.g. [charts, helm charts].
+aliases: []
+
+# Optional list of curated KB IDs that reference this corpus, e.g. [kb0042].
+related_kb: []

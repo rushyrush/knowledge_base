@@ -51,6 +51,24 @@ scripts: [data/example.sh]
 
 Root-level `skills/*.md` files are different: they are global agent skills for maintaining KB quality, not support files for a single KB entry.
 
+## KB vs Corpus
+
+This repo separates two kinds of knowledge:
+
+- **`kb/`** holds curated entries you author: summaries, how-tos, runbooks, conventions. They get stable `kbNNNN` IDs and appear in `INDEX.md`.
+- **`corpus/`** holds full source documentation you import: complete product docs, API references, upstream Markdown trees. Collections get no `kbNNNN` ID and appear in `CORPUS_INDEX.md` instead.
+
+Use a corpus when the value is in keeping the **complete source** searchable (for example, all of the Helm docs). Use a KB entry when the value is in your **distilled** guidance. A KB entry may reference a corpus for deep detail.
+
+To add a corpus:
+
+1. Create `corpus/{category}/{slug}/` (usually `corpus/products/{slug}/`).
+2. Copy `corpus/_template/corpus.yaml` into it and fill in every field.
+3. Import the docs under `docs/`, preferring Markdown or text, and redact anything private.
+4. Add a row to `CORPUS_INDEX.md`.
+
+See [corpus/README.md](corpus/README.md) for the full workflow.
+
 ## Validate Before Sharing
 
 Run these commands from the repository root:
