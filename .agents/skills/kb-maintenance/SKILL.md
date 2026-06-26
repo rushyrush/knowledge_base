@@ -1,3 +1,8 @@
+---
+name: kb-maintenance
+description: Audit KB purity, shareability, links, tags, stale entries, corpus provenance, and framework drift. Use after manual edits, merges, large imports, skill changes, or before sharing a clean copy of the KB.
+---
+
 # KB Maintenance Skill
 
 ## Purpose
@@ -32,10 +37,10 @@ Use this skill after manual edits, merges, large content imports, skill changes,
    rg -i "/Users/|/home/|C:\\\\Users|user@example|localhost:[0-9]+" .
    ```
 
-5. Scan for tool-specific leakage when the clean KB should stay agent-agnostic:
+5. Scan for tool-specific leakage when the clean KB should stay agent-agnostic. The native skill layout `.agents/skills/<name>/SKILL.md` is intentional framework content, not leakage; focus on product-specific paths and packaging:
 
    ```bash
-   rg -i "cur[s]or|\\.cur[s]or|S[K]ILL.md|skills-cur[s]or" .
+   rg -i "cur[s]or|\\.cur[s]or|skills-cur[s]or|\\.claude" .
    ```
 
 6. Check relative links after moves or renames. Prefer full relative paths between KB entries.
@@ -48,7 +53,7 @@ Use this skill after manual edits, merges, large content imports, skill changes,
 8. Check tag hygiene. Unknown tags should be added to `tags.md` or replaced with canonical tags.
 9. Verify support files:
    - Entry-local source material, raw notes, transcripts, pasted docs, scripts, configs, inventories, diagrams, screenshots, exported logs, generated outputs, and other accompanying artifacts belong under the relevant entry's `data/` directory.
-   - Root-level `skills/*.md` files are global agent skills, not entry-local support files.
+   - Native agent skills live at `.agents/skills/<name>/SKILL.md`; they are global framework content, not entry-local support files.
    - Scripts listed in frontmatter must exist, be executable, have a shebang, and include a usage comment.
 10. Verify the corpus:
     - Each collection under `corpus/{category}/{slug}/` has a `corpus.yaml` manifest with provenance fields filled in (source_url, version, retrieved, license, update_method, privacy).
@@ -56,7 +61,7 @@ Use this skill after manual edits, merges, large content imports, skill changes,
     - `corpus/` contains no `kbNNNN` IDs and no entries leak into `INDEX.md`.
     - Corpus docs are free of secrets, signed URLs, internal hostnames, and customer data.
     - Prefer Markdown/text; flag large binaries or archives that should not be committed.
-11. Check framework alignment: `README.md`, `AGENTS.md`, `kb0001`, `kb0002`, `tags.md`, `_template/kb.md`, `corpus/README.md`, `CORPUS_INDEX.md`, and `skills/*.md` should describe the same conventions.
+11. Check framework alignment: `README.md`, `AGENTS.md`, `kb0001`, `kb0002`, `tags.md`, `_template/kb.md`, `corpus/README.md`, `CORPUS_INDEX.md`, and `.agents/skills/*/SKILL.md` should describe the same conventions.
 
 ## Completion
 

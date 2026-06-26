@@ -1,3 +1,8 @@
+---
+name: kb-create-corpus
+description: Build a corpus collection of full source documentation from user-provided or agent-collected sources. Use when the user wants complete source docs preserved for retrieval rather than a curated summary.
+---
+
 # KB Create Corpus Skill
 
 ## Purpose
@@ -6,11 +11,11 @@ Build a corpus collection under `corpus/{category}/{slug}/` from varying sources
 
 Use this skill when the user asks to "build a corpus", "create a corpus", "import all the docs for X", "give the agent the full docs for X", or otherwise wants complete source documentation preserved for retrieval rather than a curated summary.
 
-If the user instead wants a distilled, summarized entry, use [kb-create](kb-create.md) and the KB workflow instead.
+If the user instead wants a distilled, summarized entry, use [kb-create](../kb-create/SKILL.md) and the KB workflow instead.
 
 ## Source Of Truth
 
-Before creating a corpus, read [corpus/README.md](../corpus/README.md) and the "add this as a corpus" section of `AGENTS.md` at the repository root. Treat them as canonical if this skill and those documents disagree.
+Before creating a corpus, read [corpus/README.md](../../../corpus/README.md) and the "add this as a corpus" section of `AGENTS.md` at the repository root. Treat them as canonical if this skill and those documents disagree.
 
 ## Terminology
 
@@ -44,13 +49,13 @@ These can speed up collection but are never required, and the skill must not dep
 
 ## Workflow
 
-1. **Confirm it is a corpus, not a KB.** If the user wants a summary, switch to [kb-create](kb-create.md).
+1. **Confirm it is a corpus, not a KB.** If the user wants a summary, switch to [kb-create](../kb-create/SKILL.md).
 2. **Pick category and slug.** Usually `corpus/products/{slug}/` with a lowercase kebab-case slug. Add a new top-level category only if `products` does not fit.
 3. **Discover the source** using web search/fetch (skip if user-provided).
 4. **Choose the method** from the ladder above.
 5. **Create the collection directory** `corpus/{category}/{slug}/` and acquire the docs into `corpus/{category}/{slug}/docs/`, preserving upstream structure.
 6. **Normalize.** Prefer Markdown/text. Drop large binaries, images, archives, and site navigation chrome unless explicitly requested. Keep upstream filenames so internal cross-references still resolve.
-7. **Write the manifest.** Copy [corpus/_template/corpus.yaml](../corpus/_template/corpus.yaml) to `corpus/{category}/{slug}/corpus.yaml` and fill in every field (see mapping below).
+7. **Write the manifest.** Copy [corpus/_template/corpus.yaml](../../../corpus/_template/corpus.yaml) to `corpus/{category}/{slug}/corpus.yaml` and fill in every field (see mapping below).
 8. **Add a `CORPUS_INDEX.md` row** for the collection (one row per collection, not per file).
 9. **Privacy scan** the acquired content (see boundaries below).
 10. **Link related KBs.** If a curated entry relies on this corpus, link to it from that entry and list the `kbNNNN` ID under `related_kb`.

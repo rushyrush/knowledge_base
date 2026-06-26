@@ -32,7 +32,7 @@ KB/
 ├── CLAUDE.md                       # symlink compatibility alias to AGENTS.md
 ├── INDEX.md                        # searchable index of curated KB entries
 ├── CORPUS_INDEX.md                 # discovery index of source-doc collections
-├── skills/                         # root-level agent skills for KB maintenance
+├── .agents/skills/                 # native agent skills for KB maintenance (one SKILL.md per skill)
 ├── _template/kb.md                 # copy + rename when adding a new entry
 ├── tags.md                         # canonical tag taxonomy
 ├── tools/                          # index generator and validator
@@ -57,7 +57,7 @@ KB/
 
 - **Directory = KB.** Every entry lives at `kb/{topic}/kbNNNN-short-title/kbNNNN-short-title.md` where `NNNN` is a zero-padded 4-digit number, globally unique across all topics, and `short-title` is a lowercase kebab-case slug derived from the title (3-4 keywords is plenty).
 - **Entry-local artifacts go in `data/`.** When a KB includes source material, raw notes, transcripts, pasted docs, scripts, configs, inventories, diagrams, screenshots, exported logs, generated outputs, or other files, place them in a `data/` subdirectory inside the entry directory. No ID prefix is needed on filenames inside `data/` because the parent directory already carries the ID.
-- **Global agent skills go in `skills/`.** Root-level `skills/*.md` files are immediately discoverable workflows for maintaining KB quality. Do not bury global skills inside an entry's `data/` directory.
+- **Global agent skills go in `.agents/skills/`.** Native `.agents/skills/<name>/SKILL.md` files are immediately discoverable workflows for maintaining KB quality. Do not bury global skills inside an entry's `data/` directory.
 - **Topics** are lowercase kebab-case folders (`kb/git/`, `kb/cloud/`, `kb/incident-response/`). Reuse an existing folder before creating a new one.
 
 ## KB vs Corpus
@@ -110,19 +110,19 @@ Use `type: script` when the main deliverable is one or more executable files. Pu
 
 ## Link Inbox
 
-Use [kb/links/kb0003-link-inbox/kb0003-link-inbox.md](kb/links/kb0003-link-inbox/kb0003-link-inbox.md) to save URLs that are useful but do not yet need a dedicated KB entry. The workflow lives at [skills/kb-add-link.md](skills/kb-add-link.md). Keep one canonical entry per normalized URL, preserve repeated sightings with `Seen:` lines, and avoid saving sensitive URLs, credentials, signed links, session IDs, or private customer data.
+Use [kb/links/kb0003-link-inbox/kb0003-link-inbox.md](kb/links/kb0003-link-inbox/kb0003-link-inbox.md) to save URLs that are useful but do not yet need a dedicated KB entry. The workflow lives at [.agents/skills/kb-add-link/SKILL.md](.agents/skills/kb-add-link/SKILL.md). Keep one canonical entry per normalized URL, preserve repeated sightings with `Seen:` lines, and avoid saving sensitive URLs, credentials, signed links, session IDs, or private customer data.
 
 ## Agent Skills
 
-Root-level [skills/](skills/) contains reusable, agent-agnostic workflows for maintaining KB quality:
+Native [.agents/skills/](.agents/skills/) contains reusable, agent-agnostic workflows for maintaining KB quality, one `SKILL.md` per skill:
 
-- [kb-add-link](skills/kb-add-link.md)
-- [kb-create](skills/kb-create.md)
-- [kb-create-corpus](skills/kb-create-corpus.md)
-- [kb-maintenance](skills/kb-maintenance.md)
-- [kb-plan-context](skills/kb-plan-context.md)
-- [kb-save-skill](skills/kb-save-skill.md)
-- [kb-search](skills/kb-search.md)
+- [kb-add-link](.agents/skills/kb-add-link/SKILL.md)
+- [kb-create](.agents/skills/kb-create/SKILL.md)
+- [kb-create-corpus](.agents/skills/kb-create-corpus/SKILL.md)
+- [kb-maintenance](.agents/skills/kb-maintenance/SKILL.md)
+- [kb-plan-context](.agents/skills/kb-plan-context/SKILL.md)
+- [kb-save-skill](.agents/skills/kb-save-skill/SKILL.md)
+- [kb-search](.agents/skills/kb-search/SKILL.md)
 
 ## Searching
 
@@ -182,7 +182,7 @@ This repo opens cleanly as an Obsidian vault.
 - **Scripts are self-contained.** Every script must have a shebang, be `chmod +x`, include a usage comment near the top, and never contain secrets.
 - **Link related KBs.** Cross-reference by ID in a `## References` section at the bottom.
 - **Keep `data/` entry-local.** Source material, raw notes, transcripts, pasted docs, scripts, configs, inventories, diagrams, screenshots, exported logs, generated outputs, and other files that belong with one KB live under that KB's `data/`.
-- **Keep `skills/` global.** Skills are agent-agnostic workflows for maintaining KB quality and should stay immediately discoverable at the repository root.
+- **Keep `.agents/skills/` global.** Skills are agent-agnostic workflows for maintaining KB quality and live at `.agents/skills/<name>/SKILL.md`, the native, portable skill location.
 
 ## Tooling
 

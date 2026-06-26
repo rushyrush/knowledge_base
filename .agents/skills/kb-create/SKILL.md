@@ -1,3 +1,8 @@
+---
+name: kb-create
+description: Create, update, and deprecate KB entries while preserving framework invariants. Use when turning source material into a KB entry, updating an existing KB, or marking an entry obsolete.
+---
+
 # KB Create Skill
 
 ## Purpose

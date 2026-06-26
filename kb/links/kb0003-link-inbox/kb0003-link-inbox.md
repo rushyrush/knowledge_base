@@ -9,14 +9,14 @@ status: active
 last_verified: 2026-06-12
 data_gaps: []
 created: 2026-06-12
-updated: 2026-06-12
+updated: 2026-06-26
 ---
 
 ## Context
 
 Use this entry to save useful URLs that are worth keeping but do not yet need their own KB entry. It is intentionally lightweight: one canonical entry per normalized URL, with notes and repeated sightings preserved in place.
 
-The [kb-add-link](../../../skills/kb-add-link.md) skill can maintain this inbox automatically. The full skill catalog is [Agent skills for KB maintenance](../../meta/kb0002-agent-skills/kb0002-agent-skills.md).
+The [kb-add-link](../../../.agents/skills/kb-add-link/SKILL.md) skill can maintain this inbox automatically. The full skill catalog is [Agent skills for KB maintenance](../../meta/kb0002-agent-skills/kb0002-agent-skills.md).
 
 ## How To Add Links
 
@@ -60,4 +60,4 @@ Normalize conservatively:
 
 - [How this KB framework works](../../meta/kb0001-kb-framework/kb0001-kb-framework.md)
 - [Agent skills for KB maintenance](../../meta/kb0002-agent-skills/kb0002-agent-skills.md)
-- [kb-add-link skill](../../../skills/kb-add-link.md)
+- [kb-add-link skill](../../../.agents/skills/kb-add-link/SKILL.md)

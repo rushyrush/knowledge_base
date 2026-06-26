@@ -1,3 +1,8 @@
+---
+name: kb-plan-context
+description: Gather relevant KB context before planning or scoping work. Use when planning, designing, or scoping work that may intersect known KB entries, runbooks, scripts, conventions, or prior source material.
+---
+
 # KB Plan Context Skill
 
 ## Purpose

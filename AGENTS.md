@@ -28,7 +28,7 @@ A *corpus* is a collection of source material gathered for retrieval and referen
 | Template | `_template/kb.md`; corpus manifest `corpus/_template/corpus.yaml` |
 | Tag source | `tags.md` |
 | Index | `INDEX.md` for KB entries; `CORPUS_INDEX.md` for corpus collections |
-| Agent skills | Root-level generic skills in `skills/*.md` |
+| Agent skills | Native skills in `.agents/skills/<name>/SKILL.md` |
 | Scoped agent files | None currently; this root file applies repo-wide |
 
 ## Commands
@@ -64,7 +64,7 @@ Run commands from the repository root.
 | `corpus/_template/corpus.yaml` | Required provenance manifest template for a new corpus |
 | `tools/generate_index.py` | Rebuilds `INDEX.md` from frontmatter |
 | `tools/validate.py` | Validates entry layout, frontmatter, scripts, tags, and index consistency |
-| `skills/` | Root-level reusable agent skills for maintaining KB quality |
+| `.agents/skills/` | Native reusable agent skills for maintaining KB quality (one `SKILL.md` per skill) |
 | `kb/` | Topic folders and KB entry directories |
 
 ## When the user says "turn this into a KB"
@@ -151,7 +151,7 @@ Otherwise, do the work and report what you created.
 
 Use this when the user wants to preserve **complete or near-complete source documentation** (e.g. "put all the Helm docs in the knowledge base") rather than a curated summary. Do not allocate a `kbNNNN` ID and do not add it to `INDEX.md`.
 
-For the full workflow, including the acquisition method ladder and manifest mapping, follow `skills/kb-create-corpus.md`.
+For the full workflow, including the acquisition method ladder and manifest mapping, follow `.agents/skills/kb-create-corpus/SKILL.md`.
 
 ### Corpus checklist
 
@@ -214,11 +214,11 @@ Cite KB hits by ID (e.g. `kb0042`) with a relative markdown link. Cite corpus hi
 
 ### Adding links
 
-Use the link inbox at `kb/links/kb0003-link-inbox/kb0003-link-inbox.md` when the user asks to save, track, or deduplicate a URL. Follow `skills/kb-add-link.md` for the full workflow. Normalize URLs conservatively, strip tracking parameters only when they are clearly tracking-only, and never save credentials, signed URLs, session IDs, private keys, customer data, or other sensitive details without explicit confirmation.
+Use the link inbox at `kb/links/kb0003-link-inbox/kb0003-link-inbox.md` when the user asks to save, track, or deduplicate a URL. Follow `.agents/skills/kb-add-link/SKILL.md` for the full workflow. Normalize URLs conservatively, strip tracking parameters only when they are clearly tracking-only, and never save credentials, signed URLs, session IDs, private keys, customer data, or other sensitive details without explicit confirmation.
 
 ### Maintaining KB purity
 
-Use `skills/kb-maintenance.md` after manual edits, merges, large imports, skill changes, or before sharing a copy of the KB. It checks index validity, structure, stale entries, tags, relative links, private material, tool-specific leakage, corpus provenance and shareability, and alignment across `README.md`, `AGENTS.md`, `kb0001`, `kb0002`, `_template/kb.md`, and `skills/*.md`.
+Use `.agents/skills/kb-maintenance/SKILL.md` after manual edits, merges, large imports, skill changes, or before sharing a copy of the KB. It checks index validity, structure, stale entries, tags, relative links, private material, tool-specific leakage, corpus provenance and shareability, and alignment across `README.md`, `AGENTS.md`, `kb0001`, `kb0002`, `_template/kb.md`, and `.agents/skills/*/SKILL.md`.
 
 ### Hard rules
 
@@ -229,7 +229,7 @@ Use `skills/kb-maintenance.md` after manual edits, merges, large imports, skill 
 - **Prefer `tags.md` tags.** Check the canonical tag list before inventing new tags.
 - **One primary Markdown note per entry directory.** The note filename stem must equal the entry directory name.
 - **Use `data/` for entry-local artifacts.** Source material, raw notes, transcripts, pasted docs, scripts, configs, inventories, diagrams, screenshots, exported logs, generated outputs, and other files that belong with a single KB entry live under that entry's `data/` directory.
-- **Use `skills/` for global agent skills.** Root-level `skills/*.md` files are not entry-local artifacts; they are discoverable instructions for maintaining KB quality.
+- **Use `.agents/skills/` for global agent skills.** Native `.agents/skills/<name>/SKILL.md` files are not entry-local artifacts; they are discoverable instructions for maintaining KB quality.
 - **Keep `corpus/` separate from `kb/`.** `corpus/` holds full source documentation collections, never `kbNNNN` IDs and never rows in `INDEX.md`. Each collection needs a `corpus.yaml` manifest and a row in `CORPUS_INDEX.md`. Do not put curated KB entries in `corpus/`, and do not put full doc dumps in `kb/`.
 
 ## Scoped agent guidance

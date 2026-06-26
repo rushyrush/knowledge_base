@@ -1,3 +1,8 @@
+---
+name: kb-add-link
+description: Save, normalize, deduplicate, and annotate URLs in the KB link inbox. Use when the user asks to save a URL, track a link, add a link to the KB, or update the link inbox.
+---
+
 # KB Add Link Skill
 
 ## Purpose

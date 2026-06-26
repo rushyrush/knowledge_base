@@ -49,7 +49,7 @@ Example:
 scripts: [data/example.sh]
 ```
 
-Root-level `skills/*.md` files are different: they are global agent skills for maintaining KB quality, not support files for a single KB entry.
+Native `.agents/skills/<name>/SKILL.md` files are different: they are global agent skills for maintaining KB quality, not support files for a single KB entry.
 
 ## KB vs Corpus
 

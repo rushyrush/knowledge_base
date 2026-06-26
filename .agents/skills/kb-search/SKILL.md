@@ -1,3 +1,8 @@
+---
+name: kb-search
+description: Search and answer from KB content with citations, drawing on curated KB entries and full source documentation in the corpus. Use when finding KB entries, citing KB IDs, inspecting topics or tags, or pulling in source docs.
+---
+
 # KB Search Skill
 
 ## Purpose

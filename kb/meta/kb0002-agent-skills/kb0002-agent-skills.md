@@ -16,56 +16,56 @@ updated: 2026-06-26
 
 This entry catalogs the reusable agent skills that help maintain this knowledge base without tying the framework to a specific agent product or packaging format.
 
-A skill is a reusable agent capability: a plain-language workflow that tells an agent how to perform a recurring job consistently. In this starter KB, skills are immediately discoverable at the repository root:
+A skill is a reusable agent capability: a plain-language workflow that tells an agent how to perform a recurring job consistently. In this starter KB, skills use the native, portable layout with one `SKILL.md` per skill:
 
 ```text
-skills/
+.agents/skills/<name>/SKILL.md
 ```
 
-The skill files are not KB entries. They are root-level operating instructions for agents. This `kb0002` entry explains why they exist, keeps them visible in the generated KB index, and links them to the framework conventions.
+The skill files are not KB entries. They are native operating instructions for agents. This `kb0002` entry explains why they exist, keeps them visible in the generated KB index, and links them to the framework conventions.
 
 ## Skills
 
-- [kb-add-link](../../../skills/kb-add-link.md) -- save, normalize, deduplicate, and annotate URLs in the link inbox.
-- [kb-create](../../../skills/kb-create.md) -- create, update, and deprecate KB entries while preserving framework invariants.
-- [kb-create-corpus](../../../skills/kb-create-corpus.md) -- build a `corpus/` collection of full source documentation from user-provided or agent-collected sources.
-- [kb-maintenance](../../../skills/kb-maintenance.md) -- audit KB purity, shareability, links, tags, stale entries, and framework drift.
-- [kb-plan-context](../../../skills/kb-plan-context.md) -- gather relevant KB context before planning or scoping work.
-- [kb-save-skill](../../../skills/kb-save-skill.md) -- preserve a reusable agent skill as a root-level Markdown workflow.
-- [kb-search](../../../skills/kb-search.md) -- search and answer from KB content with citations.
+- [kb-add-link](../../../.agents/skills/kb-add-link/SKILL.md) -- save, normalize, deduplicate, and annotate URLs in the link inbox.
+- [kb-create](../../../.agents/skills/kb-create/SKILL.md) -- create, update, and deprecate KB entries while preserving framework invariants.
+- [kb-create-corpus](../../../.agents/skills/kb-create-corpus/SKILL.md) -- build a `corpus/` collection of full source documentation from user-provided or agent-collected sources.
+- [kb-maintenance](../../../.agents/skills/kb-maintenance/SKILL.md) -- audit KB purity, shareability, links, tags, stale entries, and framework drift.
+- [kb-plan-context](../../../.agents/skills/kb-plan-context/SKILL.md) -- gather relevant KB context before planning or scoping work.
+- [kb-save-skill](../../../.agents/skills/kb-save-skill/SKILL.md) -- preserve a reusable agent skill as a native `SKILL.md` workflow.
+- [kb-search](../../../.agents/skills/kb-search/SKILL.md) -- search and answer from KB content with citations.
 
 ## Layout
 
 ```text
-skills/
-├── kb-add-link.md
-├── kb-create.md
-├── kb-create-corpus.md
-├── kb-maintenance.md
-├── kb-plan-context.md
-├── kb-save-skill.md
-└── kb-search.md
+.agents/skills/
+├── kb-add-link/SKILL.md
+├── kb-create/SKILL.md
+├── kb-create-corpus/SKILL.md
+├── kb-maintenance/SKILL.md
+├── kb-plan-context/SKILL.md
+├── kb-save-skill/SKILL.md
+└── kb-search/SKILL.md
 ```
 
-Keep global agent skills at `skills/*.md` so agents can find them quickly. Keep entry-local artifacts under the relevant KB entry's `data/` directory.
+Keep global agent skills at `.agents/skills/<name>/SKILL.md` so agents can find them quickly. Keep entry-local artifacts under the relevant KB entry's `data/` directory.
 
 ## Updating Skills
 
 When adding or changing a skill:
 
-1. Put the skill at `skills/<name>.md` with a lowercase kebab-case filename.
+1. Put the skill at `.agents/skills/<name>/SKILL.md` with a lowercase kebab-case directory name, and give it `name` and `description` frontmatter.
 2. Describe the trigger, purpose, workflow, boundaries, and expected output.
-3. Keep the skill product-neutral: do not require a specific agent runtime or packaging format.
+3. Keep the skill product-neutral: the `.agents/skills/` layout is portable, so do not require a specific agent runtime beyond the shared `SKILL.md` convention.
 4. Update this catalog entry.
 5. Update [README.md](../../../README.md), [AGENTS.md](../../../AGENTS.md), or [kb0001](../kb0001-kb-framework/kb0001-kb-framework.md) if the new skill changes core KB behavior.
 6. Run `python3 tools/generate_index.py` if this entry's frontmatter or path changed, then run `python3 tools/validate.py`.
 
 ## Gotchas
 
-- Do not confuse generic agent skills with any tool-specific package file or loader convention.
-- Root-level `skills/*.md` files are global repository guidance. Entry-local source material, scripts, logs, transcripts, diagrams, and generated outputs belong under that entry's `data/` directory.
+- Do not confuse these agent-neutral skills with any single tool's proprietary package file or loader convention; `.agents/skills/<name>/SKILL.md` is the shared, portable form.
+- Native `.agents/skills/<name>/SKILL.md` files are global repository guidance. Entry-local source material, scripts, logs, transcripts, diagrams, and generated outputs belong under that entry's `data/` directory.
 - Skills should never contain secrets, private identifiers, absolute home paths, or environment-specific assumptions.
-- The [kb-maintenance](../../../skills/kb-maintenance.md) skill should be run before sharing a copy of the KB.
+- The [kb-maintenance](../../../.agents/skills/kb-maintenance/SKILL.md) skill should be run before sharing a copy of the KB.
 
 ## References
 

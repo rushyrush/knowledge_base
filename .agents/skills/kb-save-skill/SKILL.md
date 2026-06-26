@@ -1,21 +1,27 @@
+---
+name: kb-save-skill
+description: Preserve a reusable agent skill as a native `.agents/skills/<name>/SKILL.md` workflow. Use when the user asks to archive, preserve, make portable, or update a KB-related agent skill.
+---
+
 # KB Save Skill
 
 ## Purpose
 
-Preserve a reusable agent skill as a root-level Markdown workflow in this repository.
+Preserve a reusable agent skill as a native `SKILL.md` workflow in this repository.
 
 Use this skill when the user asks to archive, preserve, make portable, or update a KB-related agent skill.
 
 ## Terminology
 
-In this repository, a skill is an agent-agnostic reusable capability documented in plain Markdown. It is not tied to any specific runtime, loader, or package format.
+In this repository, a skill is an agent-agnostic reusable capability documented in plain Markdown at `.agents/skills/<skill-name>/SKILL.md`. The `.agents/skills/` layout is a portable, agent-neutral convention, not tied to any specific runtime, loader, or vendor package format.
 
 ## Workflow
 
 1. Parse the requested skill name, e.g. `kb-maintenance`.
 2. Confirm the skill is KB-related and belongs in this shareable starter. If it is product-specific, private, or not about maintaining the KB, ask before adding it.
 3. Review the source material for secrets, credentials, private identifiers, absolute home paths, and tool-specific assumptions.
-4. Create or update `skills/<skill-name>.md` with:
+4. Create or update `.agents/skills/<skill-name>/SKILL.md` with:
+   - YAML frontmatter containing `name` (lowercase kebab-case) and a concise `description` that states what the skill does and when to use it.
    - Purpose.
    - When to use it.
    - Source of truth, if any.
@@ -34,9 +40,9 @@ In this repository, a skill is an agent-agnostic reusable capability documented 
 
 ## Conversion Notes
 
-If a skill comes from a tool-specific format, convert it to plain Markdown before saving it here:
+If a skill comes from a tool-specific format, convert it to a native, agent-neutral `SKILL.md` before saving it here:
 
-- Remove runtime-specific frontmatter.
+- Keep only portable frontmatter (`name`, `description`); drop runtime- or vendor-specific frontmatter fields.
 - Remove tool-specific invocation mechanics.
 - Replace absolute machine paths with repository-relative paths.
 - Keep the reusable workflow and decision rules.

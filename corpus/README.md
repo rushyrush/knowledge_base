@@ -63,7 +63,7 @@ Minimum fields:
 
 ## Adding a corpus
 
-For the full agent workflow, including how to find and collect source docs, follow [kb-create-corpus](../skills/kb-create-corpus.md).
+For the full agent workflow, including how to find and collect source docs, follow [kb-create-corpus](../.agents/skills/kb-create-corpus/SKILL.md).
 
 1. Pick a category (usually `products/`) and a lowercase kebab-case slug.
 2. Create `corpus/{category}/{slug}/`.
@@ -88,5 +88,5 @@ When answering knowledge questions, search in this order:
 
 - Curated notes, runbooks, and how-tos -- those are `kb/` entries.
 - Artifacts that support a single KB entry -- those go in that entry's `data/` directory.
-- Global agent workflows -- those are root-level `skills/*.md` files.
+- Global agent workflows -- those are native `.agents/skills/<name>/SKILL.md` files.
 - Secrets, credentials, private URLs, or customer data -- never commit these.

@@ -82,7 +82,7 @@ To have an agent do all of this, just say **"turn this into a KB"** and paste th
 - **Description is the primary search text.** Index searches mostly hit this field, so front-load nouns and avoid filler like "How to..." or "A guide for...".
 - **No secrets.** Redact tokens, credentials, private URLs, customer data, and anything that should not be shared.
 - **Entry-local artifacts go in `data/`.** When a KB has source material, raw notes, transcripts, pasted docs, scripts, configs, inventories, diagrams, screenshots, exported logs, generated outputs, or other files, place them in `kbNNNN-slug/data/`. No ID prefix on filenames inside `data/`; the parent directory provides the KB context. Scripts must have a shebang, be `chmod +x`, and include a usage comment. List them in the `scripts:` frontmatter field.
-- **Agent skills live at repo root.** Root-level `skills/*.md` files are global reusable workflows for maintaining KB quality, not support files for one entry.
+- **Agent skills are native skills.** `.agents/skills/<name>/SKILL.md` files are global reusable workflows for maintaining KB quality, not support files for one entry.
 - **Verify regularly.** Bump `last_verified` whenever you confirm a KB is still accurate.
 
 ## Searching
